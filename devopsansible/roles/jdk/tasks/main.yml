@@ -1,7 +1,13 @@
 ---
-- hosts: all
-  tasks:
-  - name: installation de java8
-    apt: name={{item}} state=present force=yes
-  with_items:
-  - openjdk-8-jdk
+- name: Update all Ubuntu packages
+  apt:
+    upgrade: "dist"
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Install required Ubuntu packages
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - openjdk-8-jdk
