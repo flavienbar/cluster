@@ -3,3 +3,8 @@
   become: true
   roles:
     - jdk
+
+- hosts: all
+  become: true
+  roles:
+    - docker
