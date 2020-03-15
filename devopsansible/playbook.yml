@@ -1,11 +1,5 @@
-
 ---
-- hosts: master
-  become: true
-  roles:
-    - jdk
-
-- hosts: slave
+- hosts: all
   become: true
   roles:
     - jdk
