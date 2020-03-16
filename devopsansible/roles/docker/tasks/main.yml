@@ -28,3 +28,11 @@
     state: latest
     name: "{{ item }}"
   loop: ['docker-ce', 'docker-ce-cli', 'containerd.io']
+
+
+- name: Add user(s) to "docker" group
+  user:
+    name: "{{ item }}"
+    groups: "docker"
+    append: true
+  loop: ['giujorge']
