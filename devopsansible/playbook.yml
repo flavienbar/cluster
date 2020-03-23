@@ -8,3 +8,9 @@
   become: true
   roles:
     - docker
+
+- hosts: all
+  become: true
+  roles:
+    - prerequis
+
