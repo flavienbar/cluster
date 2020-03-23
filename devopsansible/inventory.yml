@@ -68,5 +68,3 @@ all:
       children:
         master:
         slave:
-    calico-rr:
-      hosts:{}
