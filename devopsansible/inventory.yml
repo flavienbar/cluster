@@ -51,7 +51,7 @@ all:
         blanc:
         noir:
         violet:
-    slave:
+    nodes:
       hosts:
         bleu:
         vert:
