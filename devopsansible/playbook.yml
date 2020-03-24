@@ -14,3 +14,13 @@
   roles:
     - prerequis
 
+- hosts: blanc
+  become: true
+  roles:
+    - masters
+
+- hosts: nodes
+  become: true
+  roles:
+    - nodes
+
