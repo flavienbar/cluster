@@ -36,3 +36,11 @@
     groups: "docker"
     append: true
   loop: ['giujorge']
+
+- name: Enable and check Docker service
+  systemd:
+    name: docker
+    daemon_reload: yes
+    state: started
+    enabled: yes
+  register: started_docker
