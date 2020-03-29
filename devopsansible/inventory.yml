@@ -55,12 +55,12 @@ all:
       ansible_user: giujorge
       ansible_python_interpreter='python3'
   children:
-    masters:
+    master:
       hosts:
         blanc:
         noir:
         violet:
-    nodes:
+    node:
       hosts:
         bleu:
         vert:
@@ -75,5 +75,5 @@ all:
         violet:
     cluster:
       children:
-        masters:
+        master:
         nodes:
