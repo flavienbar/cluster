@@ -16,11 +16,12 @@
 
 - hosts: blanc
   become: true
+  become_user: giujorge
   roles:
-    - masters
+    - kubernetes/master
 
 - hosts: nodes
   become: true
   roles:
-    - nodes
+    - kubernetes/node
 

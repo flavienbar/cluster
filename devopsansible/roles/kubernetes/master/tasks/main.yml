@@ -15,49 +15,53 @@
     state: present
     filename: 'kubernetes'
 
-- name: install kubelet
-  apt:
-    name: kubelet
+- name: Install Kubernetes binaries
+  apt: 
+    name: "{{ packages }}"
     state: present
-    update_cache: true
+    update_cache: yes
+  vars:
+    packages:
+      - kubelet 
+      - kubeadm 
+      - kubectl
+  register: installed
 
-- name: install kubeadm
-  apt:
-    name: kubeadm
-    update_cache: true
-    state: present
-
-- name: install kubectl
-  apt:
-    name: kubectl
-    state: present
-    update_cache: true
-    force: yes
-
-- name: Init cluster if needed
-  include_tasks: init.yml
-  when: not kubeadm_ca.stat.exists
-  run_once: yes
-
-- name: Enable and check kubelet service
-  systemd:
+- name: Restart kubelet
+  service:
     name: kubelet
     daemon_reload: yes
-    state: started
-    enabled: yes
-  register: started_kubelet
+    state: restarted
 
-- name: "Copy config file"
-  fetch:
-    src: /etc/kubernetes/admin.conf 
-    dest: "{{ lookup('env', 'HOME') }}/admin.conf"
-    flat: yes
-  run_once: yes
-  ignore_errors: yes
+- name: initialize the cluster
+  shell: kubeadm init --pod-network-cidr=10.244.0.0/16 >> cluster_initialized.txt
+  args:
+    chdir: $HOME
+    creates: cluster_initialized.txt
 
+- name: create .kube directory
+  file:
+    path: $HOME/.kube
+    state: directory
+    mode: 0755
 
+- name: copy admin.conf to user's kube config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /home/ubuntu/.kube/config
+    remote_src: yes
+    owner: giujorge
 
+- name: install Pod network
+  shell: kubectl create -f https://raw.githubusercontent.com/cilium/cilium/1.6.5/install/kubernetes/quick-install.yaml >> pod_network_setup.txt >> pod_network_setup.txt
+  args:
+    chdir: $HOME
+    creates: pod_network_setup.txt
 
+- name: get join command
+  shell: kubeadm token create --print-join-command
+  register: join_command_raw
 
-
-
+- name: set join command
+  set_fact:
+    join_command: "{{ join_command_raw.stdout_lines[0] }}"

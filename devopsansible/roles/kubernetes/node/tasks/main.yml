@@ -21,26 +21,31 @@
     state: present
     update_cache: true
 
-- name: install kubeadm
-  apt:
-    name: kubeadm
+- name: Install Kubernetes binaries
+  apt: 
+    name: "{{ packages }}"
     state: present
+    update_cache: yes
+  vars:
+    packages:
+      - kubelet 
+      - kubeadm 
+      - kubectl
+  register: installed
 
-- name: Check if kubelet.conf exists
-  stat:
-    path: "/etc/kubernetes/kubelet.conf"
-  register: kubelet_conf
-
-- name: Join to cluster if needed
-  include_tasks: join.yml
-  when: not kubelet_conf.stat.exists
-
-- name: Enable and check kubelet service
-  systemd:
+- name: Restart kubelet
+  service:
     name: kubelet
     daemon_reload: yes
-    state: started
-    enabled: yes
+    state: restarted
+
+- name: TCP port 6443 on master is reachable from worker
+  wait_for: "host={{ hostvars['blanc']['ansible_default_ipv4']['address'] }} port=6443 timeout=1"
 
 
 
+- name: join cluster
+  shell: "{{ hostvars['blanc'].join_command }} >> node_joined.txt"
+  args:
+    chdir: $HOME
+    creates: node_joined.txt

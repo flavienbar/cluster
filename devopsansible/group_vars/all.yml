@@ -18,3 +18,5 @@ pod_network_cidr: "10.244.0.0/16"
 
 ##################pb master_ip
 
+
+kubeadmin_config: /etc/kubernetes/admin.conf

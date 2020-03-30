@@ -5,55 +5,46 @@ all:
       ip: 192.168.1.100
       acces_ip: 192.168.1.100
       ansible_user: giujorge
-      ansible_python_interpreter='python3'
     noir:
       ansible_host: 192.168.1.101
       ip: 192.168.1.101   
       acces_ip: 192.168.1.101
       ansible_user: giujorge
-      ansible_python_interpreter='python3'
     violet:
       ansible_host: 192.168.1.102
       ip: 192.168.1.102   
       acces_ip: 192.168.1.102
       ansible_user: giujorge
-      ansible_python_interpreter='python3'
     bleu:
       ansible_host: 192.168.1.103
       ip: 192.168.1.103
       acces_ip: 192.168.1.103
       ansible_user: giujorge
-      ansible_python_interpreter='python3'
     vert:
       ansible_host: 192.168.1.104
       ip: 192.168.1.104
       acces_ip: 192.168.1.104
       ansible_user: giujorge
-      ansible_python_interpreter='python3'
     jaune:
       ansible_host: 192.168.1.105
       ip: 192.168.1.105
       acces_ip: 192.168.1.105
       ansible_user: giujorge
-      ansible_python_interpreter='python3'
     orange:
       ansible_host: 192.168.1.106
       ip: 192.168.1.106
       acces_ip: 192.168.1.106
       ansible_user: giujorge
-      ansible_python_interpreter='python3'
     rose:
       ansible_host: 192.168.1.107
       ip: 192.168.1.107
       acces_ip: 192.168.1.107
       ansible_user: giujorge
-      ansible_python_interpreter='python3'
     rouge:
       ansible_host: 192.168.1.108
       ip: 192.168.1.108
       acces_ip: 192.168.1.108
       ansible_user: giujorge
-      ansible_python_interpreter='python3'
   children:
     master:
       hosts:
@@ -76,4 +67,4 @@ all:
     cluster:
       children:
         master:
-        nodes:
+        node:
